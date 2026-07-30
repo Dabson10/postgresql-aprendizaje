@@ -1,0 +1,9 @@
+# JetBrains / DataGrip
+.idea/
+*.user
+*.ipr
+*iws
+
+# Sistema Operativo
+.DS_Store
+Thumbs.db
