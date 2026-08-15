@@ -32,7 +32,14 @@ FROM usuarios usu
         LEFT JOIN tiendas ti ON usu.id = ti.id_usuario
         LEFT JOIN productos pr ON ti.id = pr.id_tienda
 GROUP BY usu.nombre, ti.nombre_tienda
-HAVING COUNT(pr.nombre) > 2;
+HAVING COUNT(pr.nombre) > 2
+ORDER BY cant_productos ASC;
+/*
+La diferencia entre WHERE y HAVING es simple.
+WHERE filtra filas individuales antes de realizar una agrupación, esta no permite 
+ funciones de agregación.
+HAVING filtra los resultados de los GRUPOS despues de ejecutar el GROUP BY 
+*/
 
 --Esta consulta es similar a la anterior solo que esta ordena de mayor a menor.
 SELECT usu.nombre,

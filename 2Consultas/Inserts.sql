@@ -1,3 +1,8 @@
+/* En este script encontrarás diferentes tipos de insert ya sean
+inserts individuales, inserts multiples, inserts por bloques y con usos
+de variables.*/
+
+-- =================== INSERTS INDIVIDUALES. ===================
 -- Inserts para la tabla usuarios
 INSERT INTO usuarios(nombre, email, password, rol)
 VALUES ('Juan David', 'almdavid26@gmail.com', 'perro', 'Vendedor');
@@ -13,8 +18,8 @@ INSERT INTO tiendas (nombre_tienda, descripcion, id_usuario)
 VALUES ('Polleria', 'Tienda de carniceria', '3fa98e47-87ea-4d32-a2b4-51d83306069a');
 
 -- Puse el mismo ID solo hice un cambio en una letra, y me dice que error de inserción o actualización, ya que viola la llave foránea y que esta no está presente
-INSERT INTO tiendas (nombre_tienda, descripcion, id_usuario)
-VALUES ('Polleria', 'Tienda de carniceria', '3fa98e47-87aa-4d32-a2b4-51d83306069a');
+-- INSERT INTO tiendas (nombre_tienda, descripcion, id_usuario)
+-- VALUES ('Polleria', 'Tienda de carniceria', '3fa98e47-87aa-4d32-a2b4-51d83306069a');
 
 --Otra tienda para hacer una prueba del 1:1
 INSERT INTO tiendas (nombre_tienda, descripcion, id_usuario)
@@ -25,15 +30,16 @@ VALUES ('OXXO', 'Tienda de conveniencia.', '3fa98e47-87ea-4d32-a2b4-51d83306069a
 
 -- Inserts para la tabla productos
 INSERT INTO productos (nombre, descripcion, precio, stock, id_tienda)
-VALUES ('Mineralita', 'Agua mieral de 600ml', 14.67, 20,'56c2d9e9-9021-47f8-94de-c7dea8e57049');
--- Un insert para meter mas de 1 valor.
+VALUES ('Mineralita', 'Agua mineral de 600ml', 14.67, 20,'56c2d9e9-9021-47f8-94de-c7dea8e57049');
+-- Un insert para meter más de 1 valor.
 INSERT INTO productos (nombre, descripcion, precio, stock, id_tienda)
 VALUES
     ('Topochico', 'Agua mineral de 600ml', 23.42, 15,'56c2d9e9-9021-47f8-94de-c7dea8e57049'),
     ('Takis fuego', 'Takis fuego de 56g', 22, 20,'56c2d9e9-9021-47f8-94de-c7dea8e57049');
 
--- Inserts a todas las tablas.
 
+-- =================== INSERTS MASIVOS ===================
+-- Inserts a todas las tablas.
 DO $$
     DECLARE
         -- Vendedores //Variables sobre las UUID para no poner una por una en el ID del usuario o tiendas.
@@ -140,4 +146,46 @@ DO $$
                                                                                   ('Headset Gamer 7.1 Surround', 'Almohadillas de memory foam y micrófono retráctil.', 79.90, 13, tienda_gaming);
 
     END $$;
+SELECT * FROM empleados_tienda;
+--Agregar empleados en empleados_tienda
 
+DO $$
+    DECLARE
+        empleado1 UUID := gen_random_uuid();
+        empleado2 UUID := gen_random_uuid();
+        empleado3 UUID := gen_random_uuid();
+        empleado4 UUID := gen_random_uuid();
+        empleado5 UUID := gen_random_uuid();
+        empleado6 UUID := gen_random_uuid();
+        empleado7 UUID := gen_random_uuid();
+        empleado8 UUID := gen_random_uuid();
+        empleado9  UUID := gen_random_uuid();
+        empleado10 UUID := gen_random_uuid();
+
+    BEGIN
+        -- INSERT en la tabla de usuarios
+        INSERT INTO usuarios(id, nombre, email, password, rol)
+               VALUES (empleado1, 'Gabriel Fuentes', 'gabriel.fuentes@email.com', '$2a$12$eImiTXuWVxfM37uY4JANjO5E.1M3', 'Empleado'),
+                      (empleado2, 'Camila Rivas', 'camila.rivas@email.com', '$2a$12$eImiTXuWVxfM37uY4JANjO5E.1M3', 'Empleado'),
+                      (empleado3, 'Rodrigo Beltrán', 'rodrigo.beltran@email.com', '$2a$12$eImiTXuWVxfM37uY4JANjO5E.1M3', 'Empleado'),
+                      (empleado4, 'Natalia Soto', 'natalia.soto@email.com', '$2a$12$eImiTXuWVxfM37uY4JANjO5E.1M3', 'Empleado'),
+                      (empleado5, 'Javier Espinoza', 'javier.espinoza@email.com', '$2a$12$eImiTXuWVxfM37uY4JANjO5E.1M3', 'Empleado'),
+                      (empleado6, 'Lucía Delgado', 'lucia.delgado@email.com', '$2a$12$eImiTXuWVxfM37uY4JANjO5E.1M3', 'Empleado'),
+                      (empleado7, 'Esteban Paredes', 'esteban.paredes@email.com', '$2a$12$eImiTXuWVxfM37uY4JANjO5E.1M3', 'Empleado'),
+                      (empleado8, 'Elena Valenzuela', 'elena.valenzuela@email.com', '$2a$12$eImiTXuWVxfM37uY4JANjO5E.1M3', 'Empleado'),
+                      (empleado9,  'Mateo Benítez',   'mateo.benitez@email.com',   '$2a$12$eImiTXuWVxfM37uY4JANjO5E.1M3', 'Empleado'),
+                      (empleado10, 'Valeria Ibarra',  'valeria.ibarra@email.com',  '$2a$12$eImiTXuWVxfM37uY4JANjO5E.1M3', 'Empleado');
+
+        -- INSERT en la tabla de empleados_tienda
+        INSERT INTO empleados_tienda(rol, id_usuario, id_tiendas)
+            VALUES('Administrador', empleado1, '56c2d9e9-9021-47f8-94de-c7dea8e57049'),
+                  ('Dueño', empleado2, 'd0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44'),
+                  ('Atencion_Cliente', empleado3, 'e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55'),
+                  ('Encargado_Inventario', empleado4, '355c86b0-e279-45ff-9b8d-b50b29037044'),
+                  ('Dueño', empleado5, '355c86b0-e279-45ff-9b8d-b50b29037044'),
+                  ('Administrador', empleado6, '61062630-a079-4e61-8cf6-638fd3bec1d2'),
+                  ('Atencion_Cliente', empleado7, '6b490cd8-9cf6-4843-8412-e256200852fc'),
+                  ('Encargado_Inventario', empleado8, '5ec1c2a7-cc50-42ae-9021-42381a14d3a9'),
+                  ('Dueño',                empleado9,  'a021f423-2f53-48c7-8091-c2e771870531'),
+                  ('Encargado_Inventario', empleado10, 'b8e1bae6-9b05-4f58-ad93-6c8207feb9bd');
+    END$$;
