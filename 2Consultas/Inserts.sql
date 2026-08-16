@@ -15,7 +15,7 @@ VALUES ('Maria Del Rayo', 'mari@gmail.com', 'Choco', 'Comprador');
 
 -- Inserts para la tabla tienda.
 INSERT INTO tiendas (nombre_tienda, descripcion, id_usuario)
-VALUES ('Polleria', 'Tienda de carniceria', '3fa98e47-87ea-4d32-a2b4-51d83306069a');
+VALUES ('Carniceria', 'Tienda de carniceria', 'e397dc98-31c4-4d31-9279-b4f0301ff37f');
 
 -- Puse el mismo ID solo hice un cambio en una letra, y me dice que error de inserción o actualización, ya que viola la llave foránea y que esta no está presente
 -- INSERT INTO tiendas (nombre_tienda, descripcion, id_usuario)
@@ -189,3 +189,108 @@ DO $$
                   ('Dueño',                empleado9,  'a021f423-2f53-48c7-8091-c2e771870531'),
                   ('Encargado_Inventario', empleado10, 'b8e1bae6-9b05-4f58-ad93-6c8207feb9bd');
     END$$;
+
+-- INSERTS en Categorias
+SELECT * FROM categorias;
+SELECT * FROM productos_categorias;
+SELECT nombre, id FROM productos;
+DO $$
+    DECLARE
+        -- Variables para las categorías
+        cat_electronica UUID := gen_random_uuid();
+        cat_gaming      UUID := gen_random_uuid();
+        cat_oficina     UUID := gen_random_uuid();
+        cat_moda        UUID := gen_random_uuid();
+        cat_hogar       UUID := gen_random_uuid();
+        cat_deportes    UUID := gen_random_uuid();
+        cat_libros      UUID := gen_random_uuid();
+        cat_accesorios  UUID := gen_random_uuid();
+    BEGIN
+
+        -- 1. INSERT A CATEGORÍAS
+        INSERT INTO categorias(ID, nombre_categoria, descripcion)
+        VALUES
+            (cat_electronica, 'Electrónica y Gadgets', 'Dispositivos electrónicos, componentes y periféricos tecnológicos.'),
+            (cat_gaming,      'Gaming & Esports',     'Accesorios, perféricos y mobiliario diseñado para videojuegos.'),
+            (cat_oficina,     'Oficina y Trabajo',    'Mobiliario, organización y herramientas para home office.'),
+            (cat_moda,        'Ropa y Calzado',       'Prendas de vestir, calzado y accesorios de moda urbana.'),
+            (cat_hogar,       'Hogar y Cocina',       'Artículos para decoración, cocina y confort en el hogar.'),
+            (cat_deportes,    'Deportes y Fitness',   'Equipamiento para ejercicio, entrenamiento e hidratación.'),
+            (cat_libros,      'Libros y Lectura',     'Literatura general, desarrollo personal y libros técnicos.'),
+            (cat_accesorios,  'Accesorios Varios',    'Complementos útiles para uso cotidiano, deporte o trabajo.');
+
+
+        -- 2. INSERT A PRODUCTOS_CATEGORIAS (Relación N:M)
+        -- Deja libre 'id_producto' para que le asignes tus UUIDs.
+
+        -- --- Categoria: Electrónica y Gadgets ---
+        INSERT INTO productos_categorias(id_categoria, id_producto) VALUES
+                                                                        (cat_electronica, 'e7e5cdae-a906-45f8-9367-b21419c52580'), -- Audífonos Bluetooth Pro
+                                                                        (cat_electronica, 'f810fc42-ba57-46ac-9720-a110bdb56a65'), -- Teclado Mecánico RGB
+                                                                        (cat_electronica, 'dd4930c4-5483-47a8-a37e-916904de7f7a'), -- Mouse Inalámbrico Ergonómico
+                                                                        (cat_electronica, 'b6ef7a34-c634-4e2a-9e87-9f9457beed7e'), -- Monitor Gamer 24"
+                                                                        (cat_electronica, '87042e29-6e4e-46b5-91c7-cefb9c39f37b'), -- Hub USB-C 7 en 1
+                                                                        (cat_electronica, 'f81af129-291e-4ad5-b117-5da506226104'), -- Lámpara de Escritorio LED
+                                                                        (cat_electronica, '78c89016-0053-437a-b86c-c234f4b49c81'), -- Micrófono Condensador USB
+                                                                        (cat_electronica, '7b2598c7-e92f-45c8-ac0d-0c8184377410'); -- Headset Gamer 7.1
+
+        -- --- Categoria: Gaming & Esports ---
+        INSERT INTO productos_categorias(id_categoria, id_producto) VALUES
+                                                                        (cat_gaming, 'f810fc42-ba57-46ac-9720-a110bdb56a65'), -- Teclado Mecánico RGB
+                                                                        (cat_gaming, 'b6ef7a34-c634-4e2a-9e87-9f9457beed7e'), -- Monitor Gamer 24"
+                                                                        (cat_gaming, 'd6222780-e027-48c0-b2d6-a6dbd32c80be'), -- Control Inalámbrico Pro
+                                                                        (cat_gaming, '026dc871-3bd0-4b20-a030-d1be4d51e28d'), -- Silla Gamer Ergonómica
+                                                                        (cat_gaming, '859d4a4a-4278-400d-bc54-7e62c1e92501'), -- Mousepad XL
+                                                                        (cat_gaming, '7b2598c7-e92f-45c8-ac0d-0c8184377410'); -- Headset Gamer 7.1
+
+        -- --- Categoria: Oficina y Trabajo ---
+        INSERT INTO productos_categorias(id_categoria, id_producto) VALUES
+                                                                        (cat_oficina, '087d6adf-cba4-47fc-9286-3200b1cb76af'), -- Soporte Ajustable para Laptop
+                                                                        (cat_oficina, '87042e29-6e4e-46b5-91c7-cefb9c39f37b'), -- Hub USB-C 7 en 1
+                                                                        (cat_oficina, 'f81af129-291e-4ad5-b117-5da506226104'), -- Lámpara de Escritorio LED
+                                                                        (cat_oficina, '3a18ceeb-0caa-4273-9b65-c7b9c90ebec5'), -- Organizador de Escritorio Madera
+                                                                        (cat_oficina, '026dc871-3bd0-4b20-a030-d1be4d51e28d'), -- Silla Gamer Ergonómica
+                                                                        (cat_oficina, '78c89016-0053-437a-b86c-c234f4b49c81'); -- Micrófono Condensador USB
+
+        -- --- Categoria: Ropa y Calzado ---
+        INSERT INTO productos_categorias(id_categoria, id_producto) VALUES
+                                                                        (cat_moda, '469c4790-1fa6-46e2-98c1-10c2833856a7'), -- Playera Oversize
+                                                                        (cat_moda, 'fbf30dcc-03d4-4fad-9ca9-63b62c2d1a7b'), -- Sudadera con Capucha Classic
+                                                                        (cat_moda, '86112f4a-d93b-410e-b23c-e73d0842d845'), -- Pantalón Jogger Cargo
+                                                                        (cat_moda, 'ee687a65-143c-42d8-83f3-3f406d6038de'), -- Chamarra Mezclilla Vintage
+                                                                        (cat_moda, 'aae484f4-f51f-41ec-bf25-b23b9b3ca7cb'); -- Tenis Casuales Blanco
+
+        -- --- Categoria: Hogar y Cocina ---
+        INSERT INTO productos_categorias(id_categoria, id_producto) VALUES
+                                                                        (cat_hogar, 'ee687a65-143c-42d8-83f3-3f406d6038de'), -- Cafetera Prensa Francesa
+                                                                        (cat_hogar, '4884e7dd-3f15-4182-be69-3a9def0e2bc9'), -- Juego de Sábanas Matrimonial
+                                                                        (cat_hogar, '33be6f38-a822-480d-807b-dd605669ef86'), -- Humidificador Ultrasónico
+                                                                        (cat_hogar, '3fc1c9f3-22c0-4032-a694-2a832a54e93e'); -- Set de Cuchillos de Cocina
+
+        -- --- Categoria: Deportes y Fitness ---
+        INSERT INTO productos_categorias(id_categoria, id_producto) VALUES
+                                                                        (cat_deportes, '7c39c653-7b25-4737-b802-eca38ab9def1'), -- Set de Mancuernas 10kg
+                                                                        (cat_deportes, 'd1f9ad4a-7a65-43d0-a828-64fdacd1ae1e'), -- Tapete de Yoga
+                                                                        (cat_deportes, 'b3b92b21-4ef6-4408-9cbd-b01a0b41dcdf'), -- Cuerda para Saltar
+                                                                        (cat_deportes, '2a530b8f-5bc6-43c2-8d55-cd763c00a0a3'), -- Cilindro Térmico
+                                                                        (cat_deportes, 'a155f86c-3c8e-4b1c-bbea-586f1dc8eb6f'); -- Bandas de Resistencia
+
+        -- --- Categoria: Libros y Lectura ---
+        INSERT INTO productos_categorias(id_categoria, id_producto) VALUES
+                                                                        (cat_libros, '808b6636-1463-470e-9fe0-e5c47bc5a2ec'), -- Clean Code
+                                                                        (cat_libros, '45930947-8750-4cdc-95a1-357560ce6038'), -- Designing Data-Intensive Applications
+                                                                        (cat_libros, '7cc95da1-73dc-4496-aaa2-6fbf351765d7'), -- Cien Años de Soledad
+                                                                        (cat_libros, '6ebc3c00-10db-4a04-a047-c8886d65cabf'), -- Hábitos Atómicos
+                                                                        (cat_libros, 'a5e85b5d-9ad8-46e0-915a-45a6de11ae0b'); -- El Señor de los Anillos
+
+        -- --- Categoria: Accesorios Varios ---
+        INSERT INTO productos_categorias(id_categoria, id_producto) VALUES
+                                                                        (cat_accesorios, '881839c8-140d-430e-8e2c-63ff4c39c185'), -- Gorra Minimalista
+                                                                        (cat_accesorios, '859d4a4a-4278-400d-bc54-7e62c1e92501'), -- Mousepad XL
+                                                                        (cat_accesorios, '087d6adf-cba4-47fc-9286-3200b1cb76af'), -- Soporte Ajustable para Laptop
+                                                                        (cat_accesorios, '2a530b8f-5bc6-43c2-8d55-cd763c00a0a3'); -- Cilindro Térmico
+
+    END$$;
+
+
+

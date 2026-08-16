@@ -65,3 +65,23 @@ CREATE TABLE empleados_tienda(
     CONSTRAINT fk_empleados_tienda_id_usuarios FOREIGN KEY(id_usuario) REFERENCES usuarios(id),
     CONSTRAINT fk_empleados_tienda_id_tienda FOREIGN KEY(id_tiendas) REFERENCES tiendas(id)
 );
+
+-- Creación de tabla categorias.
+CREATE TABLE categorias(
+    ID UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    nombre_categoria varchar(70) NOT NULL,
+    descripcion TEXT,
+    creado_en TIMESTAMPTZ DEFAULT now() NOT NULL,
+    actualizado_en TIMESTAMPTZ DEFAULT now() NOT NULL
+);
+
+-- Creación de tabla union entre categorias y productos
+CREATE TABLE productos_categorias(
+    id_categoria UUID NOT NULL,
+    id_producto UUID NOT NULL,
+    CONSTRAINT fk_productos_categorias_id_categoria
+        FOREIGN KEY(id_categoria) REFERENCES categorias(ID),
+    CONSTRAINT fk_productos_categorias_id_productos
+        FOREIGN KEY (id_producto) REFERENCES productos(ID),
+    PRIMARY KEY(id_categoria, id_producto)
+);
