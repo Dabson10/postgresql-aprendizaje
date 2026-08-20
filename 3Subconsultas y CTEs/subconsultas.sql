@@ -11,7 +11,7 @@ WITH contar_productos AS(
         COUNT(pr.id) AS cant_productos
     FROM tiendas ti
     INNER JOIN productos pr ON ti.id = pr.id_tienda
-    GROUP BY ti.nombre_tienda
+    GROUP BY ti.id
 )
 SELECT
     *
@@ -48,3 +48,57 @@ LEFT JOIN cte_productos cte_pr ON ti.id = cte_pr.id
 LEFT JOIN cte_empleados cte_emp ON ti.id = cte_emp.id
 ORDER BY cte_pr.cant_productos, cte_emp.cant_empleados DESC;
 
+
+-- Mostrar productos cuyo precio sea mayor
+-- al precio promedio general
+/*Consulta errónea ya que en el WHERE paso el nombre y nombre de la columna de
+  la subconsulta, pero como tal al momento de ejecución aún no tiene visibilidad la
+  subconsulta.*/
+WITH prom AS(
+    SELECT
+        AVG(pr.precio) AS promedio
+    FROM productos pr
+    )
+SELECT
+    pr.nombre, pr.precio
+FROM productos pr
+WHERE pr.precio > prom.promedio;
+
+/*Consulta correcta ya que la subconsulta se realiza al momento de comparar
+  regresando instantáneamente el valor del promedio*/
+SELECT pr.nombre, pr.precio
+FROM productos pr
+WHERE pr.precio >
+      (SELECT AVG(pr.precio) FROM productos pr )
+ORDER BY pr.precio DESC;
+
+SELECT * FROM productos;
+
+
+/*Mostrar nombre de las tiendas que si tienen al menos un producto
+registrado (Sin usar JOIN, practicando con IN)*/
+SELECT
+    ti.nombre_tienda
+FROM tiendas ti
+WHERE ti.id IN
+      (SELECT pr.id_tienda FROM productos pr);
+
+
+/*Muestra cada tienda junto con la cantidad de productos que tiene usando una subconsulta
+  SELECT en vez de JOIN + GROUP BY */
+
+SELECT
+    ti.nombre_tienda,
+    (SELECT COUNT(pr.id) FROM productos pr WHERE pr.id_tienda = ti.id ) AS cant_productos
+FROM tiendas ti
+ORDER BY cant_productos DESC;
+
+SELECT
+    ti.nombre_tienda,
+    COUNT(pr.id) AS cant_productos
+FROM tiendas ti
+LEFT JOIN productos pr ON ti.id = pr.id_tienda
+GROUP BY ti.id
+ORDER BY cant_productos DESC;
+
+SELECT * FROM tiendas;

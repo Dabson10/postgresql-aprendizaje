@@ -91,3 +91,20 @@ order by cant_productos, cant_empleados DESC;
     LEFT JOIN empleados_tienda emp ON ti.id = emp.id_tiendas
     GROUP BY ti.nombre_tienda;
   */
+
+  -- INNER JOIN para relaciones n:n
+
+/*1.Mostrar nombre de producto + nombre de categoria*/
+SELECT
+    pr.nombre,
+    cat.nombre_categoria
+FROM productos pr
+INNER JOIN productos_categorias pr_cat
+    ON pr.id = pr_cat.id_producto
+INNER JOIN categorias cat
+    ON cat.id = pr_cat.id_categoria
+WHERE pr.nombre = 'Teclado Mecánico RGB';
+
+SELECT * FROM usuarios;
+
+
