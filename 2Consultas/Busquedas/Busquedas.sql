@@ -2,5 +2,6 @@
 SELECT * FROM usuarios;
 SELECT * FROM tiendas;
 SELECT * FROM productos;
+SELECT * FROM categorias;
 SELECT * FROM empleados_tienda;
 
